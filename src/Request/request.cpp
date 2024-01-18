@@ -15,6 +15,10 @@ void connectToNetwork()
             delay(500);
             attempts++;
         }
+
+        Serial.print("IP: ");
+        Serial.println(WiFi.localIP());
+        Serial.println("--------------------");
     }
 }
 
