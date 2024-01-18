@@ -3,11 +3,12 @@
 #include "Request/request.h"
 
 // Definicion de constantes
-#define SENSOR_PIN A0                 // Patilla analogica donde esta conectado el sensor LM35
-#define NUM_READS 4                   // Numero de lecturas que se van a realizar para calcular la media
-#define DELAY_LOOP (1000 / NUM_READS) // Tiempo de espera entre lecturas
-#define MIN_TEMP 5                    // Temperatura minima que se considera valida
-#define MAX_TEMP 45                   // Temperatura maxima que se considera valida
+#define SENSOR_PIN A0                       // Patilla analogica donde esta conectado el sensor LM35
+#define DELAY_READ 10000                    // Tiempo entre lecturas del sensor
+#define NUM_READS 4                         // Numero de lecturas que se van a realizar para calcular la media
+#define DELAY_LOOP (DELAY_READ / NUM_READS) // Tiempo de espera entre lecturas
+#define MIN_TEMP 5                          // Temperatura minima que se considera valida
+#define MAX_TEMP 45                         // Temperatura maxima que se considera valida
 
 // Definicion de variables
 float Tempsfinal[NUM_READS]; // Temperaturas despues de aplicar formulas en grados centigrados
@@ -45,11 +46,12 @@ void loop()
     Serial.print("Temperatura: ");
     Serial.print(Tempfinal);
     Serial.println(" °C");
-    Serial.println("--------------------");
 
     if (isConnected())
       updateNetwork(WIFI_NAME);
     sendTemp(Tempfinal);
+
+    Serial.println("--------------------");
     displayTemp(Tempfinal);
   }
   delay(DELAY_LOOP);

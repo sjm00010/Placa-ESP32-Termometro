@@ -27,10 +27,18 @@ void sendTemp(float temp)
 {
     if (WiFi.status() == WL_CONNECTED)
     {
-        WiFiClientSecure client;
-        client.setInsecure();
         HTTPClient https;
-        https.begin(client, URL);
+        if (HTTPS)
+        {
+            WiFiClientSecure client;
+            client.setInsecure();
+            https.begin(client, URL);
+        }
+        else
+        {
+            WiFiClient client;
+            https.begin(client, URL);
+        }
 
         // Specify content-type header
         https.addHeader("Authorization", "Bearer z69QAqx9JFpmTQx");
