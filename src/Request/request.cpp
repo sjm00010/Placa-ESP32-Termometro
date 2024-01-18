@@ -31,33 +31,33 @@ void sendTemp(float temp)
 {
     if (WiFi.status() == WL_CONNECTED)
     {
-        HTTPClient https;
-        if (HTTPS)
-        {
-            WiFiClientSecure client;
-            client.setInsecure();
-            https.begin(client, URL);
-        }
-        else
-        {
-            WiFiClient client;
-            https.begin(client, URL);
-        }
+        // FOR HTTPS
+        WiFiClientSecure client;
+        client.setInsecure();
+        HTTPClient http;
+        http.begin(client, URL);
+
+        // FOR HTTP
+        // WiFiClient client;
+        // HTTPClient http;
+        // http.begin(client, URL);
 
         // Specify content-type header
-        https.addHeader("Authorization", "Bearer z69QAqx9JFpmTQx");
-        https.addHeader("content-type", "application/json");
+        http.addHeader("Authorization", "Bearer z69QAqx9JFpmTQx");
+        http.addHeader("content-type", "application/json");
 
         // Data to send with HTTP POST
         String httpRequestData = "{ \"measure\": " + String(temp) + "}";
 
         // Send HTTP POST request
-        int httpResponseCode = https.POST(httpRequestData);
+        int httpResponseCode = http.POST(httpRequestData);
 
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
-
+        if (httpResponseCode > 0)
+        {
+            Serial.print("HTTP Response code: ");
+            Serial.println(httpResponseCode);
+        }
         // Free resources
-        https.end();
+        http.end();
     }
 }
