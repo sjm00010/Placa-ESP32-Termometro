@@ -33,8 +33,8 @@ void loop()
 {
   float TempLM35 = analogRead(SENSOR_PIN); // Lectura del sensor LM35 en mV
   Tempsfinal[numLoop] = TempLM35 * 1.156 * 100 / 4096;
-  // if (Tempsfinal[numLoop] > MIN_TEMP && Tempsfinal[numLoop] < MAX_TEMP)
-  numLoop++;
+  if (Tempsfinal[numLoop] > MIN_TEMP && Tempsfinal[numLoop] < MAX_TEMP)
+    numLoop++;
 
   if (numLoop == NUM_READS)
   {
@@ -56,3 +56,24 @@ void loop()
   }
   delay(DELAY_LOOP);
 }
+
+// Temperatura falseada sin sensor para hacer pruebas en casa
+// void loop()
+// {
+//   float Tempfinal = 0;
+//   Tempfinal = random(MIN_TEMP, MAX_TEMP);
+//   Serial.print("Temperatura: ");
+//   Serial.print(Tempfinal);
+//   Serial.println(" °C");
+
+//   if (isConnected())
+//     updateNetwork(WIFI_NAME);
+//   else
+//     updateNetwork("Disconnected");
+
+//   sendTemp(Tempfinal);
+
+//   Serial.println("--------------------");
+//   displayTemp(Tempfinal);
+//   delay(DELAY_READ);
+// }
